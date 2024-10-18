@@ -1,296 +1,128 @@
-// import React, { useRef, useState } from 'react';
-// import { Button } from './ui/button'; // Updated import path
-// import { File, FileText, ImageIcon, Music, X } from 'lucide-react'; // Importing the cancel icon
-
-// const UploadButton = () => {
-//   const fileInputRef = useRef(null); // Ref for the file input
-//   const [fileNames, setFileNames] = useState([]); // State to store selected file names
-//   const [files, setFiles] = useState([]); // State to store the actual file objects
-
-//   const handleFileUpload = (type) => {
-//     fileInputRef.current.setAttribute('accept', type === 'image' ? 'image/' : type === 'text' ? '.txt,.doc,.docx' : type === 'pdf' ? '.pdf' : 'audio/');
-//     fileInputRef.current.click(); // Trigger file input click
-//   };
-
-//   const handleFileChange = (e) => {
-//     const selectedFiles = Array.from(e.target.files);
-//     const newFileNames = selectedFiles.map(file => file.name); // Get file names
-//     setFileNames(prevFileNames => [...prevFileNames, ...newFileNames]); // Update the state with new file names
-//     setFiles(prevFiles => [...prevFiles, ...selectedFiles]); // Store the actual file objects
-//     fileInputRef.current.value = ''; // Clear input
-//   };
-
-//   const handleRemoveFile = (fileName) => {
-//     const index = fileNames.indexOf(fileName);
-//     if (index > -1) {
-//       setFileNames(prevFileNames => prevFileNames.filter(name => name !== fileName));
-//       setFiles(prevFiles => prevFiles.filter((_, i) => i !== index)); // Remove the file from the files state
-//     }
-//   };
-
-//   // Placeholder for backend file upload functionality
-//   const uploadFilesToBackend = async (formData) => {
-//     // Replace this with actual API call in the future
-//     console.log('Files ready to be sent to backend:', formData);
-//     // Uncomment the following block when ready to integrate with backend
-//     /*
-//     try {
-//       const response = await fetch('/your-backend-api-endpoint', {
-//         method: 'POST',
-//         body: formData,
-//       });
-
-//       return response.ok; // Return success status
-//     } catch (error) {
-//       console.error('Error uploading files:', error);
-//       return false; // Return failure status
-//     }
-//     */
-//     return true; // Simulate a successful upload for now
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault(); // Prevent the default form submission behavior
-
-//     const formData = new FormData();
-//     files.forEach(file => {
-//       formData.append('files', file); // Append each file to the FormData object
-//     });
-
-//     const success = await uploadFilesToBackend(formData); // Call the upload function
-//     if (success) {
-//       alert('Files submitted successfully!');
-//       // Reset states after submission
-//       setFileNames([]); // Clear selected files
-//       setFiles([]); // Clear actual files
-//       fileInputRef.current.value = ''; // Reset the file input
-//     } else {
-//       alert('Error submitting files. Please try again.');
-//     }
-//   };
-
-//   return (
-//     <div className="flex-grow flex items-center justify-center flex-col">
-//       <input
-//         type="file"
-//         ref={fileInputRef}
-//         className="hidden"
-//         onChange={handleFileChange}
-//         multiple // Allow multiple file selection
-//       />
-
-//       <form onSubmit={handleSubmit} className="border border-black rounded-md p-6">
-//         <div className="flex gap-4">
-//           <Button
-//             variant="ghost"
-//             className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center border border-gray-300 rounded"
-//             onClick={() => handleFileUpload('image')}
-//             type="button" // Prevent form submission
-//           >
-//             <ImageIcon className="w-6 h-6 text-blue-500 mr-2" />
-//             Image
-//           </Button>
-//           <Button
-//             variant="ghost"
-//             className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center border border-gray-300 rounded"
-//             onClick={() => handleFileUpload('text')}
-//             type="button" // Prevent form submission
-//           >
-//             <FileText className="w-6 h-6 text-blue-500 mr-2" />
-//             Text
-//           </Button>
-//           <Button
-//             variant="ghost"
-//             className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center border border-gray-300 rounded"
-//             onClick={() => handleFileUpload('pdf')}
-//             type="button" // Prevent form submission
-//           >
-//             <File className="w-6 h-6 text-red-500 mr-2" />
-//             Pdf
-//           </Button>
-//           <Button
-//             variant="ghost"
-//             className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center border border-gray-300 rounded"
-//             onClick={() => handleFileUpload('audio')}
-//             type="button" // Prevent form submission
-//           >
-//             <Music className="w-6 h-6 text-green-500 mr-2" />
-//             Audio
-//           </Button>
-//         </div>
-
-//         {/* Display selected file names */}
-       
-
-//         {/* Submit button centered below the grid */}
-//         <div className="flex justify-center mt-4">
-//           <Button
-//             variant="ghost"
-//             className="bg-[#FF7043] hover:bg-[#E64A19] min-w-[120px] h-12 flex items-center justify-center border border-gray-300 rounded"
-//             type="submit" // Set as submit button
-//           >
-//             Submit
-//           </Button>
-//         </div>
-//       </form>
-//       <div className="mt-4">
-//         {fileNames.length > 0 && (
-//           <div>
-//             <h4 className="font-semibold">Selected Files:</h4>
-//             <ul className="list-disc pl-5">
-//               {fileNames.map((name, index) => (
-//                 <li key={index} className="text-gray-700 flex items-center justify-between">
-//                   <span>{name}</span>
-//                   <button onClick={() => handleRemoveFile(name)} className="text-red-500 ml-2">
-//                     <X className="w-4 h-4" /> {/* Cancel icon */}
-//                   </button>
-//                 </li>
-//               ))}
-//             </ul>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default UploadButton;
-
 import React, { useRef, useState } from 'react';
-import { Button } from './ui/button'; // Updated import path
-import { File, FileText, ImageIcon, Music, X } from 'lucide-react'; // Importing the cancel icon
-
+import { File, FileText, Music, Send } from 'lucide-react';
+import Sidebar from './SideNavbar';
+import Graph from './Graph';
 const UploadButton = () => {
-  const fileInputRef = useRef(null); // Ref for the file input
-  const [fileNames, setFileNames] = useState([]); // State to store selected file names
-  const [files, setFiles] = useState([]); // State to store the actual file objects
+  const fileInputRef = useRef(null);
+  const [fileNames, setFileNames] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [showAllFiles, setShowAllFiles] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleFileUpload = (type) => {
-    fileInputRef.current.setAttribute('accept', type === 'image' ? 'image/' : type === 'text' ? '.txt,.doc,.docx' : type === 'pdf' ? '.pdf' : 'audio/');
-    fileInputRef.current.click(); // Trigger file input click
+    fileInputRef.current.setAttribute(
+      'accept',
+      type === 'text'
+        ? '.txt,.doc,.docx'
+        : type === 'pdf'
+        ? '.pdf'
+        : 'audio/*'
+    );
+    fileInputRef.current.click();
   };
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    const newFileNames = selectedFiles.map(file => file.name); // Get file names
-    setFileNames(prevFileNames => [...prevFileNames, ...newFileNames]); // Update the state with new file names
-    setFiles(prevFiles => [...prevFiles, ...selectedFiles]); // Store the actual file objects
-    fileInputRef.current.value = ''; // Clear input
-  };
-
-  const handleRemoveFile = (fileName) => {
-    const index = fileNames.indexOf(fileName);
-    if (index > -1) {
-      setFileNames(prevFileNames => prevFileNames.filter(name => name !== fileName));
-      setFiles(prevFiles => prevFiles.filter((_, i) => i !== index)); // Remove the file from the files state
-    }
+    const newFileNames = selectedFiles.map((file) => file.name);
+    setFileNames((prevFileNames) => [...prevFileNames, ...newFileNames]);
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    fileInputRef.current.value = '';
   };
 
   const uploadFilesToBackend = async (formData) => {
-    // Placeholder for backend file upload functionality
     console.log('Files ready to be sent to backend:', formData);
     return true; // Simulate a successful upload for now
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
 
     const formData = new FormData();
-    files.forEach(file => {
-      formData.append('files', file); // Append each file to the FormData object
+    files.forEach((file) => {
+      formData.append('files', file);
     });
 
-    const success = await uploadFilesToBackend(formData); // Call the upload function
+    const success = await uploadFilesToBackend(formData);
     if (success) {
       alert('Files submitted successfully!');
-      // Reset states after submission
-      setFileNames([]); // Clear selected files
-      setFiles([]); // Clear actual files
-      fileInputRef.current.value = ''; // Reset the file input
+      setFileNames([]);
+      setFiles([]);
+      fileInputRef.current.value = '';
     } else {
       alert('Error submitting files. Please try again.');
     }
   };
 
   return (
-    <div className="flex-grow flex items-center justify-center flex-col">
-      <input
-        type="file"
-        ref={fileInputRef}
-        className="hidden"
-        onChange={handleFileChange}
-        multiple // Allow multiple file selection
-      />
+    <div className="flex h-screen bg-gray-800">
+      {/* Fixed Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
-      <form onSubmit={handleSubmit} className="rounded-md p-6"> {/* Removed border */}
-        <div className="flex gap-4">
-          <Button
-            variant="ghost"
-            className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center rounded"
-            onClick={() => handleFileUpload('image')}
-            type="button"
-          >
-            <ImageIcon className="w-6 h-6 text-blue-500 mr-2" />
-            Image
-          </Button>
-          <Button
-            variant="ghost"
-            className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center rounded"
-            onClick={() => handleFileUpload('text')}
-            type="button"
-          >
-            <FileText className="w-6 h-6 text-blue-500 mr-2" />
-            Text
-          </Button>
-          <Button
-            variant="ghost"
-            className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center rounded"
-            onClick={() => handleFileUpload('pdf')}
-            type="button"
-          >
-            <File className="w-6 h-6 text-red-500 mr-2" />
-            Pdf
-          </Button>
-          <Button
-            variant="ghost"
-            className="bg-[#90D5FF] hover:bg-[#1997e6] min-w-[120px] h-12 flex items-center justify-center rounded"
-            onClick={() => handleFileUpload('audio')}
-            type="button"
-          >
-            <Music className="w-6 h-6 text-green-500 mr-2" />
-            Audio
-          </Button>
+      {/* Main content area */}
+      <div className={`flex-grow flex flex-col ${isSidebarOpen ? 'ml-64' : 'ml-16'} transition-all duration-300`}>
+        {/* Canvas area for D3.js visualizations */}
+        <div className="flex-grow flex items-center justify-center">
+          {/* <canvas id="dataCanvas" className="w-[1200px] h-[500px] border border-gray-600 rounded-md"></canvas> Increased size */}
+          <Graph style={{ width: '500px', height: '300px' }}/>
         </div>
 
-        {/* Submit button centered below the grid */}
-        <div className="flex justify-center mt-4">
-          <Button
-            variant="ghost"
-            className="bg-[#FF7043] hover:bg-[#E64A19] min-w-[120px] h-12 flex items-center justify-center rounded"
-            type="submit"
-          >
-            Submit
-          </Button>
-        </div>
-      </form>
+        {/* Fixed upload bar at the bottom */}
+        <div className={`fixed bottom-0 ${isSidebarOpen ? 'left-64' : 'left-16'} w-full p-4 transition-all duration-300`}>
+          <div className="w-full max-w-4xl mx-auto flex justify-center">
+            <div className="w-full bg-gray-800 p-4 rounded-full shadow-lg flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105">
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileChange}
+                multiple
+              />
 
-      {/* Display selected file names */}
-      <div className="mt-4">
-        {fileNames.length > 0 && (
-          <div>
-            <h4 className="font-semibold">Selected Files:</h4>
-            <ul className="list-disc pl-5">
-              {fileNames.map((name, index) => (
-                <li key={index} className="text-gray-700 flex items-center justify-between">
-                  <span>{name}</span>
-                  <button onClick={() => handleRemoveFile(name)} className="text-red-500 ml-2">
-                    <X className="w-4 h-4" />
+              <form onSubmit={handleSubmit} className="flex items-center w-full">
+                {/* File type buttons on the left */}
+                <div className="flex gap-2">
+                  <button className="hover:bg-gray-700 p-2 rounded-full" onClick={() => handleFileUpload('text')} type="button">
+                    <FileText className="w-6 h-6 text-white" />
                   </button>
-                </li>
-              ))}
-            </ul>
+                  <button className="hover:bg-gray-700 p-2 rounded-full" onClick={() => handleFileUpload('pdf')} type="button">
+                    <File className="w-6 h-6 text-white" />
+                  </button>
+                  <button className="hover:bg-gray-700 p-2 rounded-full" onClick={() => handleFileUpload('audio')} type="button">
+                    <Music className="w-6 h-6 text-white" />
+                  </button>
+                </div>
+
+                {/* Display only one file name initially */}
+                <div className="flex-grow border rounded-md px-3 py-2 text-gray-200 bg-gray-700">
+                  {fileNames.length > 0 ? (
+                    <div className="flex items-center justify-between">
+                      <span>{fileNames[0]}</span>
+                      {fileNames.length > 1 && (
+                        <button
+                          type="button"
+                          className="text-blue-400"
+                          onClick={() => setShowAllFiles(!showAllFiles)}
+                        >
+                          {showAllFiles ? 'Show Less' : `+ ${fileNames.length - 1} More`}
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <span>No files selected</span>
+                  )}
+                </div>
+
+                {/* Submit button with SVG */}
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </form>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
