@@ -165,6 +165,7 @@ const UploadButton = () => {
             {/* Placeholder for Graph component */}
             <div style={{ width: '100%', height: '100%', backgroundColor: '#1F2937' }}>
               <Graph/>
+              <Graph/>
             </div>
           </div>
         </div>

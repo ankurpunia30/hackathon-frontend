@@ -21,14 +21,17 @@ const SignupPage = () => {
         </div>
 
         {/* Border Wrapper with Interactive Effect */}
-        <div className="relative mx-auto max-w-md z-10 pt-14 text-left bg-neutral-900 rounded-lg p-6 shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-105"
+        <div
+          className="relative mx-auto max-w-md z-10 pt-14 text-left bg-neutral-900 rounded-lg p-6 shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-105"
           style={{
             border: "2px solid rgba(255, 255, 255, 0.3)", // Light transparent border
             backgroundColor: "rgba(30, 30, 30, 0.8)", // Darker internal color
           }}
         >
           <div className="mb-4">
-            <label className="block text-gray-400" htmlFor="name">Name</label>
+            <label className="block text-gray-400" htmlFor="name">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -38,7 +41,9 @@ const SignupPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-400" htmlFor="email">Email</label>
+            <label className="block text-gray-400" htmlFor="email">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -48,7 +53,9 @@ const SignupPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-400" htmlFor="password">Password</label>
+            <label className="block text-gray-400" htmlFor="password">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -64,6 +71,19 @@ const SignupPage = () => {
             >
               Sign Up
             </button>
+          </div>
+
+          {/* Already a user? Sign In link */}
+          <div className="mt-4 text-center">
+            <p className="text-gray-400">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="text-blue-400 hover:text-blue-500 transition"
+              >
+                Sign In
+              </a>
+            </p>
           </div>
         </div>
 

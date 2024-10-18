@@ -75,7 +75,7 @@ const Graph = () => {
               }
             },
             label: 'data(id)', 
-            color: '#000',
+            color: 'bg-gray-800',
             'font-size': '12px', 
             'text-valign': 'center', 
             'text-halign': 'center',
