@@ -1,5 +1,5 @@
 // src/Graph.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Cytoscape from 'cytoscape';
 import cytoscapeQtip from 'cytoscape-qtip';
 import $ from 'jquery'; // qTip requires jQuery
@@ -7,6 +7,8 @@ import $ from 'jquery'; // qTip requires jQuery
 cytoscapeQtip(Cytoscape, $);
 
 const Graph = () => {
+  const [activeNode, setActiveNode] = useState(null); // For storing currently clicked node
+
   const elements = [
     // Define nodes
     { data: { id: 'Threads', category: 'Concept', content: 'Threads are the smallest unit of process execution.' }},
@@ -79,22 +81,21 @@ const Graph = () => {
             'text-halign': 'center',
             'text-wrap': 'wrap',     
             'text-max-width': '70px',
-            
           },
         },
         {
           selector: 'edge',
           style: {
             width: 3,
-            lineColor: '#2A9D8F', // Updated edge line color
-            'target-arrow-color': '#2A9D8F', // Updated target arrow color
+            lineColor: '#888',
+            'target-arrow-color': '#888',
             'target-arrow-shape': 'triangle',
             'curve-style': 'bezier',
             label: 'data(Type)',
             'font-size': '10px',
             'text-rotation': 'autorotate',
             'text-margin-y': 10,
-            'text-background-color': '#000',
+            'text-background-color': '#fff',
             'text-background-opacity': 0.8,
             'text-margin-x': 5,
           },
@@ -113,38 +114,33 @@ const Graph = () => {
       },
     });
 
-    // Add tooltips to nodes (on hover)
+    // Click event listener to toggle content
     cy.nodes().forEach(node => {
-      node.qtip({
-        content: {
-          text: node.data('content'), // Show node content on hover
-        },
-        position: {
-          my: 'top center',
-          at: 'bottom center',
-        },
-        style: {
-          classes: 'qtip-bootstrap',
-          tip: {
-            width: 16,
-            height: 8,
-          },
-        },
-        show: {
-          event: 'mouseover',
-        },
-        hide: {
-          event: 'mouseout',
-        },
+      node.on('click', function() {
+        const nodeId = this.id();
+        if (activeNode === nodeId) {
+          setActiveNode(null);  // Hide content if clicked again
+        } else {
+          setActiveNode(nodeId);  // Show content on click
+        }
       });
     });
 
     return () => {
       cy.destroy();
     };
-  }, [elements]);
+  }, [elements, activeNode]);
 
-  return <div id="cy" style={{ width: '100%', height: '600px' }} />; // Maintain the same dimensions for the graph
+  return (
+    <div>
+      <div id="cy" style={{ width: '100%', height: '600px' }} />
+      {activeNode && (
+        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc' }}>
+          <strong>{activeNode}</strong>: {elements.find(el => el.data.id === activeNode).data.content}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Graph;
